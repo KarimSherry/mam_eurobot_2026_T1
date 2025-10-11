@@ -3,6 +3,7 @@ from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
@@ -13,7 +14,8 @@ def generate_launch_description():
             'GZ_SIM_RESOURCE_PATH',
             pkg_path
         ),
-        DeclareLaunchArgument("world", default_value=PathJoinSubstitution([pkg_path, 'worlds', 'arena_world.sdf'])),
+    DeclareLaunchArgument("world", default_value=PathJoinSubstitution([pkg_path, 'worlds', 'arena_world.sdf'])),
+    DeclareLaunchArgument("rviz", default_value='true', description='Start RViz2 (true/false)'),
         ExecuteProcess(
             cmd=["ign", "gazebo", "-r", LaunchConfiguration("world")],
             output="screen"
@@ -48,5 +50,6 @@ def generate_launch_description():
             executable='rviz2',
             name='rviz2',
             output='screen',
+            condition=IfCondition(LaunchConfiguration('rviz')),
         )
     ])
