@@ -29,7 +29,7 @@
 							<diffuse>1 1 1 1</diffuse>
 							<pbr>
 									<metal>
-											<albedo_map>file://models/mat/mat_small.png</albedo_map>
+											<albedo_map>file:///models/mat/mat_small.png</albedo_map>
 											<metalness>0.0</metalness>
 											<roughness>0.8</roughness>
 									</metal>
