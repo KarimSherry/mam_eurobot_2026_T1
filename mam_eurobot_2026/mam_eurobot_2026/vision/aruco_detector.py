@@ -64,7 +64,7 @@ class ArucoDetectNode(Node):
                 self.height = float(height)
                 print(f"img size; {width}x{height}")
 
-        tree_marker = ET.parse('/home/rosdev/eurobot_2026_ws/src/mam_eurobot_2026/models/crate/model.sdf')
+        tree_marker = ET.parse('/home/rosdev/eurobot_2026_ws/src/mam_eurobot_2026/models/crate_blue/model.sdf')
         root_marker = tree_marker.getroot()
         aruco_size = None
         for visual in root_marker.iter('visual'):
@@ -152,6 +152,7 @@ class ArucoDetectNode(Node):
             det.bbox = bbox
 
             det_array.detections.append(det)
+            
             # logger for debug
             self.get_logger().info(
                 f"\n=== ArUco Detection ===\n"

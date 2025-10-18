@@ -74,9 +74,17 @@ def generate_launch_description():
             on_start=[
                 ExecuteProcess(
                     cmd=_spawn_model_cmd(
-                        file_uri="model://models/crate",
-                        name="crate",
+                        file_uri="model://models/crate_blue",
+                        name="crate_blue",
                         x=-0.20, y=0.0, z=0.05
+                    ),
+                    output="screen",
+                ),
+                ExecuteProcess(
+                    cmd=_spawn_model_cmd(
+                        file_uri="model://models/crate_yellow",
+                        name="crate_yellow",
+                        x=-0.20, y=0.30, z=0.05
                     ),
                     output="screen",
                 ),
