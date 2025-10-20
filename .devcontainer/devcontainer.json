@@ -1,5 +1,9 @@
 {
     "name": "MAM Eurobot 2026 Workspace",
+    // "containerEnv": {
+    //     "DISPLAY": "host.docker.internal:0", 
+    //     "QT_X11_NO_MITSHM": "1"
+    // },
     "remoteUser": "rosdev",
     "build": {
         "dockerfile": "Dockerfile",
@@ -35,9 +39,11 @@
     "workspaceFolder": "/home/rosdev/eurobot_2026_ws",
     "workspaceMount": "source=${localWorkspaceFolder}/mam_eurobot_2026,target=/home/rosdev/eurobot_2026_ws/src/mam_eurobot_2026,type=bind",
     "mounts": [],
-    "runArgs": [
-        "--net=host"
-    ],
+    "forwardPorts": [6080, 5900],
+
+    // "runArgs": [
+    //     "--net=host"
+    // ],
     "features": {
         "ghcr.io/devcontainers/features/python:1": {
             "installTools": true,
@@ -47,5 +53,8 @@
             "version": "os-provided"
         }
     },
+
     "postAttachCommand": "sudo rosdep update && sudo rosdep install -y --from-paths src --ignore-src && sudo chown -R $(whoami) /home/rosdev/eurobot_2026_ws/ && colcon build --symlink-install"
+    
+
 }

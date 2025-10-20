@@ -1,3 +1,4 @@
+                '/world/eurobot_2026_arena/clock@rosgraph_msgs/msg/Clock@ignition.msgs.Clock',  # ← 先頭スラッシュ追加
 # test launch file for Mac
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -184,5 +185,6 @@ def generate_launch_description():
                 'RCUTILS_LOGGING_USE_STDOUT': '1',
                 'AMENT_PREFIX_PATH': os.environ.get('AMENT_PREFIX_PATH',''),
             },
+            parameters=[{'use_sim_time': True}],
         ),
     ])
