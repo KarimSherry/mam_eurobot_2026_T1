@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <world name="eurobot_2026_arena">
+    <!-- Set the background color -->
+    <background>
+      <color>0.7 0.7 0.7 1</color>
+    </background>
+
+    <!-- Add a light source -->
+    <light type="directional" name="sun">
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <direction>-0.5 0.5 -1</direction>
+    </light>
+    
+    <!-- Set the gravity of the world -->
+    <gravity>0 0 -9.81</gravity>
+    
+    <!-- Set the physics engine -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+    <plugin
+        filename="libignition-gazebo-physics-system.so"
+        name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin
+        filename="libignition-gazebo-user-commands-system.so"
+        name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin
+        filename="libignition-gazebo-scene-broadcaster-system.so"
+        name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+    <plugin
+        filename="libignition-gazebo-sensors-system.so"
+        name="ignition::gazebo::systems::Sensors">
+    </plugin>
+
+
+    <model name="ground_plane">
+        <static>true</static>
+        <link name="link">
+            <collision name="collision">
+            <geometry>
+                <plane>
+                <normal>0 0 1</normal>
+                </plane>
+            </geometry>
+            </collision>
+            <visual name="visual">
+            <geometry>
+                <plane>
+                <normal>0 0 1</normal>
+                <size>20 20</size>
+                </plane>
+            </geometry>
+            <material>
+                <ambient>0.8 0.8 0.8 1</ambient>
+                <diffuse>0.2 0.2 0.2 1</diffuse>
+                <specular>0.8 0.8 0.8 1</specular>
+            </material>
+            </visual>
+        </link>
+    </model>
+    
+    <!-- Include mat model -->
+    <include>
+      <uri>file://models/mat</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+  <!-- BEGIN: auto-generated crate includes (right half, corrected axes) -->
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_001</name>
+      <pose>-0.200000 -0.275000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_002</name>
+      <pose>-0.200000 -0.325000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_003</name>
+      <pose>-0.200000 -0.375000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_004</name>
+      <pose>-0.200000 -0.425000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_005</name>
+      <pose>-0.875000 -0.325000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_006</name>
+      <pose>-0.875000 -0.375000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_007</name>
+      <pose>-0.875000 -0.425000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_008</name>
+      <pose>-0.875000 -0.475000 0.050000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_009</name>
+      <pose>-0.675000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_010</name>
+      <pose>-0.625000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_011</name>
+      <pose>-0.575000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_012</name>
+      <pose>-0.525000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_013</name>
+      <pose>0.125000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_blue</uri>
+      <name>crate_blue_014</name>
+      <pose>0.175000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_015</name>
+      <pose>0.225000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+    <include>
+      <uri>model://models/crate_yellow</uri>
+      <name>crate_yellow_016</name>
+      <pose>0.275000 -1.375000 0.050000 0 0 -1.570796</pose>
+    </include>
+  <!-- END: auto-generated crate includes -->
+  </world>
+</sdf>
