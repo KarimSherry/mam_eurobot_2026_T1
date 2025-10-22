@@ -14,7 +14,7 @@ import os
 
 
 def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: float = None):
-    """ros_gz_sim create のコマンド生成ヘルパ"""
+    """Helper of generating command of ros_gz_sim create"""
     cmd = [
         "ros2", "run", "ros_gz_sim", "create",
         "-file", file_uri,
@@ -27,10 +27,10 @@ def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: 
 
 
 def generate_launch_description():
-    # パッケージ共有パス（models や worlds を見せる）
+    # path sharing package
     pkg_share = FindPackageShare('mam_eurobot_2026')
 
-    # ============ 環境変数 ============
+    # ============ Enviroinment Variable ============
     env_actions = [
         SetEnvironmentVariable('DISPLAY', ':1'),  # VNC / Xvfb
         SetEnvironmentVariable('HOME', '/home/rosdev'),
@@ -38,9 +38,8 @@ def generate_launch_description():
         SetEnvironmentVariable('XDG_RUNTIME_DIR', '/tmp/runtime-rosdev'),
         SetEnvironmentVariable('LIBGL_ALWAYS_SOFTWARE', '1'),
         SetEnvironmentVariable('IGN_RENDER_ENGINE', 'ogre2'),
-        # Gazebo のリソース探索（models/worlds）にパッケージを通す
+        # make path of resource of Gazebo 
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', pkg_share),
-        # 作業用ディレクトリなどを事前作成
         ExecuteProcess(
             cmd=[
                 '/bin/bash', '-lc',
@@ -52,7 +51,7 @@ def generate_launch_description():
         ),
     ]
 
-    # ============ 引数 ============
+    # ============ arguments ============
     world_arg = DeclareLaunchArgument(
         'world',
         default_value=PathJoinSubstitution([pkg_share, 'worlds', 'competition_world.sdf']),
@@ -66,8 +65,8 @@ def generate_launch_description():
         output="screen",
     )
 
-    # ============ Ignition 起動後に spawn ============
-    # models/ 以下を GZ_SIM_RESOURCE_PATH で通しているので "model://models/<name>" でOK
+    # ============ spawn after launching ignition============
+    # "model://models/<name>" is OK as it has GZ_SIM_RESOURCE_PATH
     spawn_after_ign = RegisterEventHandler(
         OnProcessStart(
             target_action=ign,
@@ -84,7 +83,7 @@ def generate_launch_description():
         )
     )
 
-    # ============ ブリッジ ============
+    # ============ bridge ============
     cmd_vel_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -136,7 +135,7 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         env=rviz_env,
-        # parameters=[{'use_sim_time': True}],  # 必要ならコメント解除
+        # parameters=[{'use_sim_time': True}],  # delete comment if not necessary
     )
 
     return LaunchDescription([
