@@ -14,7 +14,7 @@ import os
 
 
 def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: float = None):
-    """ros_gz_sim create のコマンド生成ヘルパ"""
+    """Hepler of generating command of os_gz_sim create"""
     cmd = [
         "ros2", "run", "ros_gz_sim", "create",
         "-file", file_uri,
@@ -27,7 +27,7 @@ def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: 
 
 
 def generate_launch_description():
-    # パッケージ共有パス（models や worlds を見せる）
+    # path sharing package
     pkg_share = FindPackageShare('mam_eurobot_2026')
 
     # ============ 環境変数 ============
@@ -66,8 +66,8 @@ def generate_launch_description():
         output="screen",
     )
 
-    # ============ Ignition 起動後に spawn ============
-    # models/ 以下を GZ_SIM_RESOURCE_PATH で通しているので "model://models/<name>" でOK
+    # ============ spawn after launch ignition============
+    # "model://models/<name>" is OK as it has path models/
     spawn_after_ign = RegisterEventHandler(
         OnProcessStart(
             target_action=ign,
@@ -100,7 +100,7 @@ def generate_launch_description():
         )
     )
 
-    # ============ ブリッジ ============
+    # ============ bridge ============
     cmd_vel_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -152,7 +152,7 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         env=rviz_env,
-        # parameters=[{'use_sim_time': True}],  # 必要ならコメント解除
+        # parameters=[{'use_sim_time': True}],  # delete comment if necessary
     )
 
     return LaunchDescription([
