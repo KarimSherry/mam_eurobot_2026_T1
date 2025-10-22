@@ -50,7 +50,7 @@ def generate_launch_description():
         ),
     ]
 
-    # ============ argument ============
+    # ============ arguments ============
     world_arg = DeclareLaunchArgument(
         'world',
         default_value=PathJoinSubstitution([pkg_share, 'worlds', 'arena_world.sdf']),
