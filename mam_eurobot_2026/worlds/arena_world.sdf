@@ -33,6 +33,11 @@
         filename="libignition-gazebo-scene-broadcaster-system.so"
         name="ignition::gazebo::systems::SceneBroadcaster">
     </plugin>
+    <plugin
+        filename="libignition-gazebo-sensors-system.so"
+        name="ignition::gazebo::systems::Sensors">
+    </plugin>
+
 
     <model name="ground_plane">
         <static>true</static>

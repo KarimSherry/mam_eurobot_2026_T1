@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.9">
-  <model name="crate">
+  <model name="Crate">
     <static>false</static>
     <link name="link">
       <inertial>
@@ -43,6 +43,32 @@
           <ambient>0.0 0.3 0.8 1</ambient>
           <diffuse>0.0 0.3 0.8 1</diffuse>
           <specular>0.2 0.2 0.2 1</specular>
+        </material>
+      </visual>
+      <visual name="aruco_top">
+        <pose>0 0 0.0155 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <plane>
+            <size>0.04 0.04</size>
+            <normal>0 0 1</normal>
+            <texture>
+              <size>0.03 0.03</size>
+            </texture>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <!-- ↑this is must!!!! -->
+          <pbr>
+            <metal>
+              <!-- <albedo_map>file:///home/rosdev/eurobot_2026_ws/src/mam_eurobot_2026/models/aruco/aruco_36.png</albedo_map> -->
+              <albedo_map>model://models/aruco/aruco_36.png</albedo_map>
+              <!-- <albedo_map>model://aruco/aruco_36.png</albedo_map>  it doest work  -->
+              <!-- <albedo_map>file:///models/aruco/aruco_36.png</albedo_map>  -->
+            </metal>
+          </pbr>
+          <double_sided>true</double_sided>
         </material>
       </visual>
     </link>
