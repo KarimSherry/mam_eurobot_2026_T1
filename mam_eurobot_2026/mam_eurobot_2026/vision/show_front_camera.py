@@ -10,7 +10,7 @@ class FrontCamViewer(Node):
     def __init__(self):
         super().__init__('front_cam_viewer')
 
-        # センサデータ向けQoS（ブリッジはBEST_EFFORTが多い）
+        # QoS
         qos = QoSProfile(
             depth=5,
             reliability=ReliabilityPolicy.BEST_EFFORT,
@@ -25,7 +25,7 @@ class FrontCamViewer(Node):
         self.frame_count = 0
         self.last_count = 0
         self.t0 = self.get_clock().now()
-        # 1秒ごとに受信レートを出す
+        # publish recieve rate every 1 second
         self.timer = self.create_timer(1.0, self._log_rate)
 
         self.sub_img = self.create_subscription(
@@ -43,7 +43,7 @@ class FrontCamViewer(Node):
             self.use_window = False
             
 
-        # 正しいシャットダウンハンドラ登録（Nodeではなくrclpyのコンテキスト）
+        # register correct shutdown handler 
         rclpy.get_default_context().on_shutdown(self.on_shutdown)
 
     def on_info(self, msg: CameraInfo):
@@ -60,7 +60,7 @@ class FrontCamViewer(Node):
                 f'stamp={msg.header.stamp.sec}.{msg.header.stamp.nanosec:09d}'
             )
 
-        # --- ここから従来のcv_bridge変換と表示 ---
+        # ---cv bridge transform and display---
         try:
             if msg.encoding == 'rgb8':
                 cv_img = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
@@ -82,7 +82,7 @@ class FrontCamViewer(Node):
         else:
             if self.frame_count % 60 == 0:
                 cv2.imwrite('/tmp/front_camera_sample.jpg', cv_img)
-        # --- ここまで表示処理 ---
+        # --- display process ends ---
 
         self.frame_count += 1
         if self.frame_count % 60 == 0:
@@ -100,10 +100,9 @@ class FrontCamViewer(Node):
         inc = new - self.last_count
         hz = inc / dt if dt > 0 else 0.0
         self.get_logger().info(f'Recv rate ~ {hz:.2f} Hz (last {dt:.2f}s, +{inc} frames, total {new})')
-        # 次のウィンドウへ更新
+        # refresh window
         self.t0 = now
         self.last_count = new
-        # しばらく0枚なら警告
         if inc == 0:
             self.get_logger().warn('No frames received in the last interval.')  
 
@@ -114,7 +113,6 @@ def main():
         rclpy.spin(node)
     finally:
         node.destroy_node()
-        # 念のためここでもウィンドウ破棄
         try:
             cv2.destroyAllWindows()
         except Exception:
