@@ -30,7 +30,7 @@ def generate_launch_description():
     # path sharing package
     pkg_share = FindPackageShare('mam_eurobot_2026')
 
-    # ============ 環境変数 ============
+    # ============ Environment Virables ============
     env_actions = [
         SetEnvironmentVariable('DISPLAY', ':1'),  # VNC / Xvfb
         SetEnvironmentVariable('HOME', '/home/rosdev'),
@@ -38,9 +38,7 @@ def generate_launch_description():
         SetEnvironmentVariable('XDG_RUNTIME_DIR', '/tmp/runtime-rosdev'),
         SetEnvironmentVariable('LIBGL_ALWAYS_SOFTWARE', '1'),
         SetEnvironmentVariable('IGN_RENDER_ENGINE', 'ogre2'),
-        # Gazebo のリソース探索（models/worlds）にパッケージを通す
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', pkg_share),
-        # 作業用ディレクトリなどを事前作成
         ExecuteProcess(
             cmd=[
                 '/bin/bash', '-lc',
@@ -52,7 +50,7 @@ def generate_launch_description():
         ),
     ]
 
-    # ============ 引数 ============
+    # ============ arguments ============
     world_arg = DeclareLaunchArgument(
         'world',
         default_value=PathJoinSubstitution([pkg_share, 'worlds', 'arena_world.sdf']),
