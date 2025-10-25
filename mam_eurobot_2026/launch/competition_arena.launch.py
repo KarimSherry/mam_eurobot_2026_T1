@@ -29,6 +29,7 @@ def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: 
 def generate_launch_description():
     # path sharing package
     pkg_share = FindPackageShare('mam_eurobot_2026')
+    model_path = PathJoinSubstitution([pkg_share, 'models'])
 
     # ============ Enviroinment Variable ============
     env_actions = [
@@ -40,6 +41,7 @@ def generate_launch_description():
         SetEnvironmentVariable('IGN_RENDER_ENGINE', 'ogre2'),
         # make path of resource of Gazebo 
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', pkg_share),
+        SetEnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', model_path),
         ExecuteProcess(
             cmd=[
                 '/bin/bash', '-lc',
