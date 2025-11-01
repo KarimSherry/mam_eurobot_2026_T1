@@ -12,6 +12,10 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 import os
 
+MAC = False # for testing on Mac
+current_display = os.environ.get('DISPLAY', ':0')  # get current DISPLAY
+print(f"Detected DISPLAY: {current_display}")
+
 
 def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: float = None):
     """Helper of generating command of ros_gz_sim create"""
@@ -29,27 +33,51 @@ def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: 
 def generate_launch_description():
     # path sharing package
     pkg_share = FindPackageShare('mam_eurobot_2026')
+    model_path = PathJoinSubstitution([pkg_share, 'models'])
 
     # ============ Enviroinment Variable ============
-    env_actions = [
-        SetEnvironmentVariable('DISPLAY', ':1'),  # VNC / Xvfb
-        SetEnvironmentVariable('HOME', '/home/rosdev'),
-        SetEnvironmentVariable('ROS_LOG_DIR', '/home/rosdev/.ros/log'),
-        SetEnvironmentVariable('XDG_RUNTIME_DIR', '/tmp/runtime-rosdev'),
-        SetEnvironmentVariable('LIBGL_ALWAYS_SOFTWARE', '1'),
-        SetEnvironmentVariable('IGN_RENDER_ENGINE', 'ogre2'),
-        # make path of resource of Gazebo 
-        SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', pkg_share),
-        ExecuteProcess(
-            cmd=[
-                '/bin/bash', '-lc',
-                'mkdir -p /home/rosdev/.ros/log '
-                '&& mkdir -p /tmp/runtime-rosdev '
-                '&& chmod 700 /tmp/runtime-rosdev'
-            ],
-            output='screen'
-        ),
-    ]
+    if MAC:
+        env_actions = [
+            SetEnvironmentVariable('DISPLAY', ':1'),  # VNC / Xvfb
+            SetEnvironmentVariable('HOME', '/home/rosdev'),
+            SetEnvironmentVariable('ROS_LOG_DIR', '/home/rosdev/.ros/log'),
+            SetEnvironmentVariable('XDG_RUNTIME_DIR', '/tmp/runtime-rosdev'),
+            SetEnvironmentVariable('LIBGL_ALWAYS_SOFTWARE', '1'),
+            SetEnvironmentVariable('IGN_RENDER_ENGINE', 'ogre2'),
+            # make path of resource of Gazebo 
+            SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', pkg_share),
+            SetEnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', model_path),
+            ExecuteProcess(
+                cmd=[
+                    '/bin/bash', '-lc',
+                    'mkdir -p /home/rosdev/.ros/log '
+                    '&& mkdir -p /tmp/runtime-rosdev '
+                    '&& chmod 700 /tmp/runtime-rosdev'
+                ],
+                output='screen'
+            ),
+        ]
+    else:
+        env_actions = [
+            SetEnvironmentVariable('DISPLAY', current_display), # use current DISPLAY
+            SetEnvironmentVariable('HOME', '/home/rosdev'),
+            SetEnvironmentVariable('ROS_LOG_DIR', '/home/rosdev/.ros/log'),
+            SetEnvironmentVariable('XDG_RUNTIME_DIR', '/tmp/runtime-rosdev'),
+            SetEnvironmentVariable('LIBGL_ALWAYS_SOFTWARE', '1'),
+            SetEnvironmentVariable('IGN_RENDER_ENGINE', 'ogre2'),
+            # make path of resource of Gazebo 
+            SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', pkg_share),
+            SetEnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', model_path),
+            ExecuteProcess(
+                cmd=[
+                    '/bin/bash', '-lc',
+                    'mkdir -p /home/rosdev/.ros/log '
+                    '&& mkdir -p /tmp/runtime-rosdev '
+                    '&& chmod 700 /tmp/runtime-rosdev'
+                ],
+                output='screen'
+            ),
+        ]
 
     # ============ argument ============
     world_arg = DeclareLaunchArgument(
@@ -118,16 +146,28 @@ def generate_launch_description():
     )
 
     # ============ RViz ============
-    rviz_env = {
-        'DISPLAY': ':1',
-        'LIBGL_ALWAYS_SOFTWARE': '1',
-        'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:' + os.environ.get('LD_LIBRARY_PATH', ''),
-        'HOME': '/home/rosdev',
-        'ROS_LOG_DIR': '/home/rosdev/.ros/log',
-        'XDG_RUNTIME_DIR': '/tmp/runtime-rosdev',
-        'RCUTILS_LOGGING_USE_STDOUT': '1',
-        'AMENT_PREFIX_PATH': os.environ.get('AMENT_PREFIX_PATH', ''),
-    }
+    if MAC:
+        rviz_env = {
+            'DISPLAY': ':1',
+            'LIBGL_ALWAYS_SOFTWARE': '1',
+            'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:' + os.environ.get('LD_LIBRARY_PATH', ''),
+            'HOME': '/home/rosdev',
+            'ROS_LOG_DIR': '/home/rosdev/.ros/log',
+            'XDG_RUNTIME_DIR': '/tmp/runtime-rosdev',
+            'RCUTILS_LOGGING_USE_STDOUT': '1',
+            'AMENT_PREFIX_PATH': os.environ.get('AMENT_PREFIX_PATH', ''),
+        }
+    else:
+        rviz_env = {
+            'DISPLAY': current_display,  # use current DISPLAY
+            'LIBGL_ALWAYS_SOFTWARE': '1',
+            'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:' + os.environ.get('LD_LIBRARY_PATH', ''),
+            'HOME': '/home/rosdev',
+            'ROS_LOG_DIR': '/home/rosdev/.ros/log',
+            'XDG_RUNTIME_DIR': '/tmp/runtime-rosdev',
+            'RCUTILS_LOGGING_USE_STDOUT': '1',
+            'AMENT_PREFIX_PATH': os.environ.get('AMENT_PREFIX_PATH', ''),
+        }
 
     rviz = Node(
         package='rviz2',

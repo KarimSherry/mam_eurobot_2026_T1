@@ -70,84 +70,88 @@
       <uri>file://models/mat</uri>
       <pose>0 0 0 0 0 0</pose>
     </include>
+    <include>
+      <uri>models://models/arena3D</uri>
+      <pose>1 1.5 0 0 0 3.14</pose>
+    </include>
   <!-- BEGIN: auto-generated crate includes (right half, corrected axes) -->
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_001</name>
       <pose>-0.200000 -0.275000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_002</name>
       <pose>-0.200000 -0.325000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_003</name>
       <pose>-0.200000 -0.375000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_004</name>
       <pose>-0.200000 -0.425000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_005</name>
       <pose>-0.875000 -0.325000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_006</name>
       <pose>-0.875000 -0.375000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_007</name>
       <pose>-0.875000 -0.425000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_008</name>
       <pose>-0.875000 -0.475000 0.050000 0 0 0.000000</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_009</name>
       <pose>-0.675000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_010</name>
       <pose>-0.625000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_011</name>
       <pose>-0.575000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_012</name>
       <pose>-0.525000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_013</name>
       <pose>0.125000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_blue</uri>
+      <uri>model://crate_blue</uri>
       <name>crate_blue_014</name>
       <pose>0.175000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_015</name>
       <pose>0.225000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
     <include>
-      <uri>model://models/crate_yellow</uri>
+      <uri>model://crate_yellow</uri>
       <name>crate_yellow_016</name>
       <pose>0.275000 -1.375000 0.050000 0 0 -1.570796</pose>
     </include>
