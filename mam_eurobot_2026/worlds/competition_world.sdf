@@ -98,7 +98,7 @@
           </sensor>
         </link>
         <link name="camera_link_2">
-          <pose>-1 -1.5 0 0 0.85 0.7854</pose>
+          <pose>-1 -1.5 0 0 1.25 0.7854</pose>
 
           <!-- Visualize camera to check camera pose -->
           <visual name="viz">
@@ -136,6 +136,10 @@
     <include>
       <uri>models://models/arena3D</uri>
       <pose>1 1.5 0 0 0 3.14</pose>
+    </include>
+    <include>
+      <uri>models://models/cursor</uri>
+      <pose>-1.05 -1.40 0.1 0 0 3.14</pose>
     </include>
   <!-- BEGIN: auto-generated crate includes (right half, corrected axes) -->
     <include>
