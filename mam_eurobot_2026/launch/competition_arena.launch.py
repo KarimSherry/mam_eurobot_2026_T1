@@ -12,7 +12,7 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 import os
 
-MAC = False # for testing on Mac
+MAC = True # for testing on Mac
 current_display = os.environ.get('DISPLAY', ':0')  # get current DISPLAY
 print(f"Detected DISPLAY: {current_display}")
 
@@ -31,6 +31,9 @@ def _spawn_model_cmd(file_uri: str, name: str, x: float, y: float, z: float, Y: 
 
 
 def generate_launch_description():
+
+    os.system("pkill -9 -f ign")
+    os.system("pkill -9 -f gz")
     # path sharing package
     pkg_share = FindPackageShare('mam_eurobot_2026')
     model_path = PathJoinSubstitution([pkg_share, 'models'])
