@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="arena3D">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <!-- <uri>model://3Darena/meshes/3Darena.stl</uri>--> <!--i don't know why it doesnt work -->
+            <uri>meshes/arena3D.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+          <bounce/>
+          <contact/>
+        </surface>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+            <mesh>
+              <!-- <uri>model://3Darena/meshes/3Darena.dae</uri> -->
+              <uri>meshes/arena3D.dae</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+        </geometry>
+        <material>
+          <ambient>0.71 0.69 0.63 1.0</ambient>
+          <diffuse>0.71 0.69 0.63 1.0</diffuse>
+          <specular>0.1 0.1 0.1 1.0</specular>
+          <emissive>0 0 0 1.0</emissive>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
