@@ -20,12 +20,20 @@ from pathlib import Path
 from importlib.resources import files 
 
 
-# This node should executed only once
-# calculate transformation from world to each camera and broadcast it
+"""
+This node should executed only once
+calculate transformation from world to each camera and broadcast it
+we need; sudo apt install ros-humble-tf-transformations
+Execute this node with; 
+ros2 run mam_eurobot_2026 world_to_topcamera.py 
+"""
 
-# we need; sudo apt install ros-humble-tf-transformations
-# Execute this node with; 
-# ros2 run mam_eurobot_2026 world_to_topcamera.py 
+"""
+issue i faced in testing this node was:
+Path issue; i took force solution 
+aruco marker coordinate issue; aruco on floor was rotated from the world frame by -π/2
+parameter K issue; In SIM we can assume fx = fy
+"""
 
 def _try_open_yaml(path_str: str):
     """絶対パス or CWD相対パスで見つかれば開いて dict を返す。なければ None。"""
