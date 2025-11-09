@@ -1,203 +1,150 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <sdf version="1.9">
-  <model name="simple_robot" canonical_link='chassis'>
+  <model name="omni_like_robot" canonical_link="chassis">
     <pose>0 0 0 0 0 0</pose>
-		<link name='chassis'>
-			<pose relative_to='__model__'>0.05 0 0.04 0 0 0</pose>
-			  <inertial>
-        <mass>1</mass>
+
+    <!-- CHASSIS -->
+    <link name="chassis">
+      <pose>0 0 0.05 0 0 0</pose>
+      <inertial>
+        <mass>1.0</mass>
         <inertia>
-            <ixx>0.001191615</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.004051490</iyy>
-            <iyz>0</iyz>
-            <izz>0.004766458</izz>
+          <ixx>0.0012</ixx>
+          <iyy>0.0040</iyy>
+          <izz>0.0048</izz>
         </inertia>
-    	</inertial>
-			<visual name='visual'>
+      </inertial>
+      <visual name="chassis_visual">
         <geometry>
-            <box>
-                <size>0.2 0.1 0.05</size>
-            </box>
+          <box><size>0.25 0.18 0.05</size></box>
         </geometry>
         <material>
-            <ambient>0.0 0.612 0.867 1</ambient>
-            <diffuse>0.0 0.612 0.867 1</diffuse>
-            <specular>0.0 0.612 0.867 1</specular>
+          <ambient>0.0 0.612 0.867 1</ambient>
+          <diffuse>0.0 0.612 0.867 1</diffuse>
         </material>
-			</visual>
-			<collision name='collision'>
-            <geometry>
-                <box>
-                    <size>0.2 0.1 0.05</size>
-                </box>
-            </geometry>
-        </collision>
-		<sensor name="front_camera" type="camera">
-			<pose relative_to="chassis">0.12 0 0.05 0 0 0</pose>
-			<topic>front_camera</topic>
-			<camera>
-				<horizontal_fov>1.047</horizontal_fov> <!-- 約60度 -->
-				<image>
-				<width>640</width>
-				<height>480</height>
-				<!-- <format>R8G8B8</format> -->
-				<format>RGB_INT8</format>
-				</image>
-				<clip>
-					<near>0.1</near>
-					<far>100</far>
-				</clip>
-			</camera>
-			<always_on>1</always_on>
-			<update_rate>30</update_rate>
-			<visualize>true</visualize>
-		</sensor>
-    	</link>
-		<link name='left_wheel'>
-			<pose relative_to="chassis">-0.05 0.06 0 -1.5707 0 0</pose>
-			<inertial>
-					<mass>0.2</mass>
-					<inertia>
-							<ixx>0.000800</ixx>
-							<ixy>0</ixy>
-							<ixz>0</ixz>
-							<iyy>0.000433</iyy>
-							<iyz>0</iyz>
-							<izz>0.000433</izz>
-					</inertia>
-			</inertial>
-			<visual name='visual'>
+      </visual>
+      <collision name="chassis_collision">
         <geometry>
-            <cylinder>
-                <radius>0.04</radius>
-                <length>0.02</length>
-            </cylinder>
+          <box><size>0.25 0.18 0.05</size></box>
         </geometry>
-        <material>
-            <ambient>0.0 0.29 0.46 1</ambient>
-            <diffuse>0.0 0.29 0.46 1</diffuse>
-            <specular>0.0 0.0 0.0 1</specular>
-        </material>
-			</visual>
-			<collision name='collision'>
-					<geometry>
-							<cylinder>
-									<radius>0.04</radius>
-									<length>0.02</length>
-							</cylinder>
-					</geometry>
-			</collision>
-		</link>
-		<link name='right_wheel'>
-			<pose relative_to="chassis">-0.05 -0.06 0 -1.5707 0 0</pose>
-			<inertial>
-					<mass>0.2</mass>
-					<inertia>
-							<ixx>0.000800</ixx>
-							<ixy>0</ixy>
-							<ixz>0</ixz>
-							<iyy>0.000433</iyy>
-							<iyz>0</iyz>
-							<izz>0.000433</izz>
-					</inertia>
-			</inertial>
-			<visual name='visual'>
-				<geometry>
-						<cylinder>
-								<radius>0.04</radius>
-								<length>0.02</length>
-						</cylinder>
-				</geometry>
-				<material>
-						<ambient>0.0 0.29 0.46 1</ambient>
-						<diffuse>0.0 0.29 0.46 1</diffuse>
-						<specular>0.0 0.0 0.0 1</specular>
-				</material>
-				</visual>
-				<collision name='collision'>
-						<geometry>
-								<cylinder>
-										<radius>0.04</radius>
-										<length>0.02</length>
-								</cylinder>
-						</geometry>
-				</collision>
-			</link>
-			<frame name="caster_frame" attached_to='chassis'>
-				<pose>0.08 0 -0.02 0 0 0</pose>
-			</frame>
-			<link name='caster'>
-				<pose relative_to='caster_frame'/>
-				<inertial>
-						<mass>0.1</mass>
-						<inertia>
-								<ixx>0.00016</ixx>
-								<ixy>0</ixy>
-								<ixz>0</ixz>
-								<iyy>0.00016</iyy>
-								<iyz>0</iyz>
-								<izz>0.00016</izz>
-						</inertia>
-				</inertial>
-				<visual name='visual'>
-						<geometry>
-								<sphere>
-										<radius>0.02</radius>
-								</sphere>
-						</geometry>
-						<material>
-								<ambient>0.0 0.29 0.46 1</ambient>
-								<diffuse>0.0 0.29 0.46 1</diffuse>
-								<specular>0.0 0.0 0.0 1</specular>
-						</material>
-				</visual>
-				<collision name='collision'>
-						<geometry>
-								<sphere>
-										<radius>0.02</radius>
-								</sphere>
-						</geometry>
-				</collision>
-		</link>
-		<joint name='left_wheel_joint' type='revolute'>
-			<pose relative_to='left_wheel'/>
-			<parent>chassis</parent>
-			<child>left_wheel</child>
-			<axis>
-					<xyz expressed_in='__model__'>0 1 0</xyz>
-					<limit>
-							<lower>-1.79769e+308</lower>    <!--negative infinity-->
-							<upper> 1.79769e+308</upper>    <!--positive infinity-->
-					</limit>
-			</axis>
-		</joint>
-		<joint name='right_wheel_joint' type='revolute'>
-			<pose relative_to='right_wheel'/>
-			<parent>chassis</parent>
-			<child>right_wheel</child>
-			<axis>
-					<xyz expressed_in='__model__'>0 1 0</xyz>
-					<limit>
-							<lower>-1.79769e+308</lower>    <!--negative infinity-->
-							<upper> 1.79769e+308</upper>    <!--positive infinity-->
-					</limit>
-			</axis>
-		</joint>
-		<joint name='caster_wheel' type='ball'>
-			<parent>chassis</parent>
-			<child>caster</child>
-		</joint>
-		<plugin
-			filename="libignition-gazebo-diff-drive-system.so"
-			name="ignition::gazebo::systems::DiffDrive">
-			<left_joint>left_wheel_joint</left_joint>
-			<right_joint>right_wheel_joint</right_joint>
-			<wheel_separation>0.12</wheel_separation>
-			<wheel_radius>0.04</wheel_radius>
-			<odom_publish_frequency>1</odom_publish_frequency>
-			<topic>cmd_vel</topic>
-		</plugin>
-	</model>
+      </collision>
+    </link>
+
+    <!-- WHEELS -->
+
+    <!-- FRONT LEFT -->
+    <link name="front_left_wheel">
+      <pose>0.1 0.09 0 -1.5707 0 0</pose>
+      <inertial><mass>0.2</mass></inertial>
+      <visual name="visual">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+        <material><ambient>0.0 0.29 0.46 1</ambient></material>
+      </visual>
+      <collision name="collision">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+      </collision>
+    </link>
+
+    <!-- FRONT RIGHT -->
+    <link name="front_right_wheel">
+      <pose>0.1 -0.09 0 -1.5707 0 0</pose>
+      <inertial><mass>0.2</mass></inertial>
+      <visual name="visual">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+        <material><ambient>0.0 0.29 0.46 1</ambient></material>
+      </visual>
+      <collision name="collision">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+      </collision>
+    </link>
+
+    <!-- REAR LEFT -->
+    <link name="rear_left_wheel">
+      <pose>-0.1 0.09 0 -1.5707 0 0</pose>
+      <inertial><mass>0.2</mass></inertial>
+      <visual name="visual">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+        <material><ambient>0.0 0.29 0.46 1</ambient></material>
+      </visual>
+      <collision name="collision">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+      </collision>
+    </link>
+
+    <!-- REAR RIGHT -->
+    <link name="rear_right_wheel">
+      <pose>-0.1 -0.09 0 -1.5707 0 0</pose>
+      <inertial><mass>0.2</mass></inertial>
+      <visual name="visual">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+        <material><ambient>0.0 0.29 0.46 1</ambient></material>
+      </visual>
+      <collision name="collision">
+        <geometry><cylinder><radius>0.04</radius><length>0.02</length></cylinder></geometry>
+      </collision>
+    </link>
+
+    <!-- JOINTS -->
+
+    <joint name="front_left_wheel_joint" type="revolute">
+      <parent>chassis</parent>
+      <child>front_left_wheel</child>
+      <axis><xyz>0 1 0</xyz></axis>
+    </joint>
+
+    <joint name="front_right_wheel_joint" type="revolute">
+      <parent>chassis</parent>
+      <child>front_right_wheel</child>
+      <axis><xyz>0 1 0</xyz></axis>
+    </joint>
+
+    <joint name="rear_left_wheel_joint" type="revolute">
+      <parent>chassis</parent>
+      <child>rear_left_wheel</child>
+      <axis><xyz>0 1 0</xyz></axis>
+    </joint>
+
+    <joint name="rear_right_wheel_joint" type="revolute">
+      <parent>chassis</parent>
+      <child>rear_right_wheel</child>
+      <axis><xyz>0 1 0</xyz></axis>
+    </joint>
+
+    <!-- JOINT VELOCITY CONTROLLERS -->
+
+    <!-- FRONT LEFT -->
+    <plugin name="ignition::gazebo::systems::JointController"
+            filename="libignition-gazebo-joint-controller-system.so">
+      <joint_name>front_left_wheel_joint</joint_name>
+      <command_type>velocity</command_type>
+      <topic>/omni/front_left_speed</topic>
+    </plugin>
+
+    <!-- FRONT RIGHT -->
+    <plugin name="ignition::gazebo::systems::JointController"
+            filename="libignition-gazebo-joint-controller-system.so">
+      <joint_name>front_right_wheel_joint</joint_name>
+      <command_type>velocity</command_type>
+      <topic>/omni/front_right_speed</topic>
+    </plugin>
+
+    <!-- REAR LEFT -->
+    <plugin name="ignition::gazebo::systems::JointController"
+            filename="libignition-gazebo-joint-controller-system.so">
+      <joint_name>rear_left_wheel_joint</joint_name>
+      <command_type>velocity</command_type>
+      <topic>/omni/rear_left_speed</topic>
+    </plugin>
+
+    <!-- REAR RIGHT -->
+    <plugin name="ignition::gazebo::systems::JointController"
+            filename="libignition-gazebo-joint-controller-system.so">
+      <joint_name>rear_right_wheel_joint</joint_name>
+      <command_type>velocity</command_type>
+      <topic>/omni/rear_right_speed</topic>
+    </plugin>
+
+
+
+  </model>
 </sdf>
