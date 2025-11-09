@@ -8,6 +8,12 @@ setup(
     version='0.0.1',
     # packages=find_packages(where='.', include=[package_name]),
     packages=find_packages(where='.', include=[f'{package_name}', f'{package_name}.*']),
+    include_package_data=True,  
+    package_data={             
+        package_name: [
+            'vision/*.yaml',   
+        ],
+    },
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -24,6 +30,7 @@ setup(
             'py_test = mam_eurobot_2026.py_test:main',
             'aruco_detector = mam_eurobot_2026.vision.aruco_detector:main',
             'color_detector = mam_eurobot_2026.vision.color_detector:main'
+            'world_to_topcamera = mam_eurobot_2026.vision.world_to_topcamera:main' 
         ],
     },
 )

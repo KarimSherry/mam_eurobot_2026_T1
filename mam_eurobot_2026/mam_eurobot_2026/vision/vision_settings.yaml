@@ -1,0 +1,18 @@
+global:
+  horizontal_fov_deg: 60.0 
+  image_width: 640
+  image_height: 480
+
+cameras:
+  - name: top_camera1
+    image_topic: /top_camera/image_1
+    marker_id: 21
+    marker_length_m: 0.10
+    # world -> marker (px, py, pz, roll, pitch, yaw) [m, rad]
+    world_marker_xyzrpy: [ 0.4, -0.9, 0.0,  0.0, 0.0, -1.5707]   
+
+  - name: top_camera2
+    image_topic: /top_camera/image_2
+    marker_id: 23
+    marker_length_m: 0.10
+    world_marker_xyzrpy: [-0.4, -0.9, 0.0,  0.0, 0.0, -1.5707]   

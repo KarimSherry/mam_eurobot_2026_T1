@@ -18,15 +18,16 @@ class ColorDetector(Node):
     def __init__(self, image_topic: str, reliable: bool):
         super().__init__('color_detector')
 
-        self.declare_parameter('h_min', 35)
-        self.declare_parameter('s_min', 50)
-        self.declare_parameter('v_min', 50)
-        self.declare_parameter('h_max', 85)
+        self.declare_parameter('h_min', 40)
+        self.declare_parameter('s_min', 170)
+        self.declare_parameter('v_min', 170)
+        self.declare_parameter('h_max', 70)
         self.declare_parameter('s_max', 255)
         self.declare_parameter('v_max', 255)
 
-        self.declare_parameter('erode', 1)
-        self.declare_parameter('dilate', 1)
+        self.declare_parameter('erode', 2)
+        self.declare_parameter('dilate', 2)
+        self.declare_parameter('min_area', 200)  
 
         qos = QoSProfile(
             depth=5,
@@ -75,7 +76,27 @@ class ColorDetector(Node):
         mask = cv2.inRange(hsv, lower, upper) 
         mask = self._morph(mask)
 
-        cv2.imshow('ColorDetector: binary mask (green)', mask)
+
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            if area < 200:  # remove small noises
+                continue
+
+            rect = cv2.minAreaRect(cnt)
+            box = cv2.boxPoints(rect)
+            box = np.int0(box)
+
+            # get the point which has smallest y
+            top_point = box[np.argmin(box[:, 1])]
+
+            # visualize the point
+            # cv2.circle(mask, tuple(top_point), 5, (255, 255, 255), -1)
+            # print("Top point:", top_point)
+
+        cv2.imshow("ColorDetector: binary mask (green)", mask)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             self.get_logger().info('Quit requested (q). Shutting down...')
             rclpy.shutdown()
