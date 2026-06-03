@@ -12,9 +12,9 @@ import tf2_ros
 from geometry_msgs.msg import Pose, PoseStamped
 from vision_msgs.msg import Detection3D, Detection3DArray, ObjectHypothesisWithPose
 
-# this node is for transformation of  /aruco/detections -> map frame
-# and pulish this crate position to /detected_crates
-# ASSUMING TRANSFORMATION   map -> base_link (localization) -> <camera_frame> (defined in URDF, static)
+# this node transforms /aruco/detections into a target world frame.
+# It works for both robot-mounted and fixed beacon cameras as long as the
+# detection header frame_id matches a frame available in TF.
 class DetectedCratesTF(Node):
     def __init__(self) -> None:
         super().__init__("detected_crates_tf")
@@ -35,13 +35,13 @@ class DetectedCratesTF(Node):
         )
 
     def _transform_pose(self, pose: Pose, header) -> Optional[Pose]:
-        source_frame = "front_camera"
+        source_frame = header.frame_id
         if not source_frame:
             return None
         pose_stamped = PoseStamped()
         pose_stamped.header = header
         pose_stamped.header.frame_id = source_frame
-        pose_stamped.header.stamp = Time().to_msg()
+        pose_stamped.header.stamp = header.stamp if header.stamp.sec or header.stamp.nanosec else Time().to_msg()
         pose_stamped.pose = pose
         try:
             out = self._tf_buffer.transform(

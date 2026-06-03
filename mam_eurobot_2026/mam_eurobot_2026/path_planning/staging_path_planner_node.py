@@ -13,8 +13,9 @@ from geometry_msgs.msg import PoseStamped
 from nav2_msgs.action import ComputePathToPose
 from nav_msgs.msg import Path as NavPath
 from tf2_ros import Buffer, TransformListener, TransformException
-import tf_transformations
 import yaml
+
+from mam_eurobot_2026.vision.aruco_utils import quaternion_from_euler
 
 
 @dataclass
@@ -156,7 +157,7 @@ class StagingPathPlanner(Node):
         return min(poses, key=lambda p: math.hypot(p.x - current_x, p.y - current_y))
 
     def _pose_from_staging(self, staging: StagingPose) -> PoseStamped:
-        quat = tf_transformations.quaternion_from_euler(0.0, 0.0, staging.yaw)
+        quat = quaternion_from_euler(0.0, 0.0, staging.yaw)
         pose = PoseStamped()
         pose.header.stamp = self.get_clock().now().to_msg()
         pose.header.frame_id = self._global_frame

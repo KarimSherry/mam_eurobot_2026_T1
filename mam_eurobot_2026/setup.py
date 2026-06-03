@@ -59,6 +59,7 @@ setup(
             'detected_crates_tf = mam_eurobot_2026.vision.detected_crates_tf:main',
             'world_to_topcamera = mam_eurobot_2026.vision.world_to_topcamera:main' ,
             'estimate_cursor_position = mam_eurobot_2026.vision.estimate_cursor_position:main',
+            'robot_pose_from_beacon = mam_eurobot_2026.vision.robot_pose_from_beacon:main',
             'staging_path_planner_node = mam_eurobot_2026.path_planning.staging_path_planner_node:main',
             'task_goal_path_planner_node = mam_eurobot_2026.path_planning.task_goal_path_planner_node:main',
             'pose_info_filter_gz = mam_eurobot_2026.localization.pose_info_filter_gz:main',

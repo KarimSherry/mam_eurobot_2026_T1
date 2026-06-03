@@ -7,6 +7,7 @@ global:
 cameras:
   - name: observation_device
     image_topic: /top_camera/image_3
+    frame_id: observation_device_optical_frame
     marker_id: 21
     marker_length_m: 0.10
     # world -> marker (px, py, pz, roll, pitch, yaw) [m, rad]
@@ -18,3 +19,10 @@ arucos:
     marker_length_m: 0.04
   - id: 47   # crate_yellow
     marker_length_m: 0.04
+
+robot:
+  # Dedicated ArUco mounted on the robot body and seen by the beacon camera.
+  marker_id: 5
+  marker_length_m: 0.04
+  # base_link -> marker pose [x, y, z, roll, pitch, yaw] in meters/radians.
+  base_to_marker_xyzrpy: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]

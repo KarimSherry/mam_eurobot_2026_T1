@@ -4,12 +4,14 @@ Reference for the ROS 2 nodes in `mam_eurobot_2026/vision`: what each one does, 
 ## aruco_detector
 - **Node**: `aruco_detector` – detects ArUco markers on a provided camera topic, estimates each marker pose, and publishes a `vision_msgs/Detection3DArray` with pose/bbox per marker.
 - **Inputs**: `--ros-args -p image_topic:=<sensor_msgs/Image>` (required, QoS depth 1). The ArUco dictionary, image size, and allowed IDs/marker lengths come from `vision_settings.yaml` (parameter `config_yaml`, default packaged file).
+- **Calibration**: set `calibration_pkl` to use measured camera intrinsics/distortion. If omitted, the node falls back to HFOV-based intrinsics from the YAML.
 - **Outputs**: `/aruco/detections` (`vision_msgs/Detection3DArray`).
 - **Debug**: `show_debug_image` (default `true`) opens an OpenCV window and draws marker axes.
 - **Run for example**:
   ```bash
   ros2 run mam_eurobot_2026 aruco_detector --ros-args \
     -p image_topic:=/front_camera \
+    -p calibration_pkl:=/abs/path/to/camera_calibration.pkl \
     -p config_yaml:=vision_settings.yaml \
     -p show_debug_image:=false
   ```
@@ -36,15 +38,34 @@ Reference for the ROS 2 nodes in `mam_eurobot_2026/vision`: what each one does, 
   ```
 
 ## world_to_topcamera
-- **Node**: `world_to_topcamera` – solves the static transform `world -> <camera>_optical_frame` for every camera defined in `vision_settings.yaml` using ArUco markers, publishes a latched pose, and broadcasts `/tf_static`.
+- **Node**: `world_to_topcamera` – solves the static transform `map/world -> <camera>_optical_frame` for every camera defined in `vision_settings.yaml` using ArUco markers, publishes a latched pose, and broadcasts `/tf_static`.
 - **Config**: `config_yaml` parameter (default `vision_settings.yaml`, either from CWD or packaged). Uses `global` fields (HFOV, image size, ArUco dictionary) and each entry under `cameras` (`image_topic`, `marker_id`, `marker_length_m`, `world_marker_xyzrpy`).
+- **Calibration**: set `calibration_pkl` to use measured camera intrinsics/distortion.
 - **Inputs**: subscribes to every `image_topic` listed in the YAML (`sensor_msgs/Image`, QoS depth 5, BEST_EFFORT).
-- **Outputs**: `/<camera>/pose_world` (`geometry_msgs/PoseStamped`, RELIABLE + TRANSIENT_LOCAL) and `/tf_static` (`world` → `<camera>_optical_frame`).
+- **Outputs**: `/<camera>/pose_world` (`geometry_msgs/PoseStamped`, RELIABLE + TRANSIENT_LOCAL) and `/tf_static` (`<world_frame>` → `<camera>_optical_frame`).
 - **Exit behavior**: `exit_on_complete` (default `false`) controls shutdown after solving; `require_both_cameras` (default `false`) requires all cameras to be solved before exiting when `exit_on_complete` is true.
 - **Run**:
   ```bash
   ros2 run mam_eurobot_2026 world_to_topcamera \
-    --ros-args -p config_yaml:=vision_settings.yaml -p exit_on_complete:=true
+    --ros-args -p config_yaml:=vision_settings.yaml \
+    -p calibration_pkl:=/abs/path/to/camera_calibration.pkl \
+    -p world_frame:=map \
+    -p exit_on_complete:=true
+  ```
+
+## robot_pose_from_beacon
+- **Node**: `robot_pose_from_beacon` – detects a dedicated ArUco marker mounted on the robot from the pole camera, uses the static `map/world -> camera` TF, and publishes the robot pose plus optional `map -> base_link` TF.
+- **Inputs**: `image_topic` (required), TF `<world_frame> -> <camera_frame>`, robot marker config from `vision_settings.yaml` under `robot`, and ideally `calibration_pkl` for measured intrinsics.
+- **Outputs**: `/robot_pose_vision` (`geometry_msgs/PoseStamped` by default) and optional TF `<world_frame> -> <base_frame>`.
+- **Key parameters**: `world_frame` (`map`), `camera_frame`, `base_frame` (`base_link`), `pose_topic`, `marker_id`, `marker_length_m`, `base_to_marker_xyzrpy`, `publish_tf`, `show_debug_image`.
+- **Run**:
+  ```bash
+  ros2 run mam_eurobot_2026 robot_pose_from_beacon --ros-args \
+    -p image_topic:=/top_camera/image_3 \
+    -p calibration_pkl:=/abs/path/to/camera_calibration.pkl \
+    -p world_frame:=map \
+    -p camera_frame:=observation_device_optical_frame \
+    -p show_debug_image:=false
   ```
 
 ## camera_viewer.py

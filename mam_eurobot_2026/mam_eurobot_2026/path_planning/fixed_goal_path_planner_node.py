@@ -11,7 +11,8 @@ from geometry_msgs.msg import PoseStamped
 from nav2_msgs.action import ComputePathToPose
 from nav_msgs.msg import Path as NavPath
 from tf2_ros import Buffer, TransformListener, TransformException
-import tf_transformations
+
+from mam_eurobot_2026.vision.aruco_utils import quaternion_from_euler
 
 # this node publishes the path to fixed point for testing
 class FixedGoalPathPlanner(Node):
@@ -94,7 +95,7 @@ class FixedGoalPathPlanner(Node):
         return pose
 
     def _build_goal_pose(self) -> PoseStamped:
-        quat = tf_transformations.quaternion_from_euler(0.0, 0.0, self._goal_yaw)
+        quat = quaternion_from_euler(0.0, 0.0, self._goal_yaw)
         pose = PoseStamped()
         pose.header.stamp = self.get_clock().now().to_msg()
         pose.header.frame_id = self._global_frame
